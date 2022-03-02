@@ -27,8 +27,9 @@ class HomeController extends GetxController {
   }
 
   initialLoad(){
-    Future.delayed(Duration(seconds: 1),() async{
-      employeeDao = Get.find<Storage>().getDb()!.databaseDao;
+    $FloorEmployeeDatabase.databaseBuilder('app_database.db').build().then((database) async{
+
+      employeeDao = database.databaseDao;
       List<EmployeeEntity> tableData = await employeeDao.findAllPersons();
       if (tableData.isEmpty) {
         getAllEmployeeDetails();
@@ -49,6 +50,10 @@ class HomeController extends GetxController {
         }
 
       }
+    }
+    );
+    Future.delayed(Duration(seconds: 3),() async{
+
     });
   }
   getAllEmployeeDetails() async{
